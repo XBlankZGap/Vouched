@@ -5,6 +5,7 @@ import HeroSection from './components/HeroSection';
 import PricingSection from './components/PricingSection';
 import ServicesSection from './components/ServicesSection';
 import Footer from './components/Footer';
+import BackToTop from './components/BackToTop';
 
 function App() {
   return (
@@ -14,11 +15,12 @@ function App() {
 
      
       <main className="flex-grow mt-16 p-4">
+
         <HeroSection />
         <PricingSection />
         <ServicesSection />
       </main>
-
+<BackToTop />
       
       <Footer />
     </div>
