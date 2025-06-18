@@ -1,9 +1,5 @@
 import React from 'react';
-import { Button } from "@/components/ui/button";
 import './App.css';
-
-// Sections and Components merged here
-import Home from "./Home.jsx";
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import PricingSection from './components/PricingSection';
@@ -12,17 +8,22 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="font-sans p-4">
+    <div className="min-h-screen flex flex-col font-sans">
+
       <Header />
-      <main className="mt-16">
+
+     
+      <main className="flex-grow mt-16 p-4">
         <HeroSection />
         <PricingSection />
         <ServicesSection />
-        <Home /> {/* for rendering the Home component */}
       </main>
+
+      
       <Footer />
     </div>
   );
 }
+
 
 export default App;

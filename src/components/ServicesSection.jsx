@@ -19,6 +19,7 @@ const ServicesSection = () => {
         ))}
       </div>
     </section>
+    
   );
 };
 
