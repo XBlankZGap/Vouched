@@ -1,4 +1,3 @@
-// src/components/ServicesSection.jsx
 import React from "react";
 
 const ServicesSection = () => {

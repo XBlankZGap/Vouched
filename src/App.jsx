@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import './App.css';
 
-// Sections and Components
+// Sections and Components merged here
 import Home from "./Home.jsx";
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
@@ -18,7 +18,7 @@ function App() {
         <HeroSection />
         <PricingSection />
         <ServicesSection />
-        <Home /> {/* This will render your Home component */}
+        <Home /> {/* for rendering the Home component */}
       </main>
       <Footer />
     </div>

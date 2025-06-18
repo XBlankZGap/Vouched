@@ -1,4 +1,3 @@
-// src/components/PricingSection.jsx
 import React from "react";
 
 const PricingSection = () => {
