@@ -2,12 +2,12 @@ import React from "react";
 
 const PricingSection = () => {
   return (
-    <section id="pricing" className="py-20 bg-gray-100 text-center">
+    <section id="pricing" className="py-20 bg-gray-100 text-center rounded-[2.5rem] shadow-2xl">
       <h3 className="font-sans text-3xl font-bold mb-12 text-gray-800">Pricing Plans</h3>
       
       <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-6xl mx-auto px-4">
         {/* Free Plan */}
-        <div className="bg-white shadow p-6 rounded-lg w-full md:w-1/3 flex flex-col justify-between text-center">
+        <div className="bg-white shadow p-6 rounded-2xl w-full md:w-1/3 flex flex-col justify-between text-center shadow-2xl">
           <div>
             <h4 className="text-xl font-bold mb-2 text-blue-600">Free</h4>
             <p className="text-gray-600 mb-2">Basic access to core tools</p>
@@ -29,7 +29,7 @@ const PricingSection = () => {
         </div>
 
         {/* Pro Plan */}
-        <div className="bg-white shadow-lg p-6 rounded-lg w-full md:w-1/3 flex flex-col justify-between text-center border-2 border-blue-600">
+        <div className="bg-white shadow-lg p-6 rounded-2xl w-full md:w-1/3 flex flex-col justify-between text-center border-2 border-blue-600 shadow-2xl">
           <div>
             <h4 className="text-xl font-bold mb-2 text-purple-700">Pro</h4>
             <p className="text-gray-600 mb-2">Full access + smart suggestions</p>
