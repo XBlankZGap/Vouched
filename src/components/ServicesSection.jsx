@@ -43,7 +43,9 @@ const ServicesSection = () => {
           key={index}
           className={`w-[85%] min-h-[60vh] mx-auto my-12 rounded-[2rem] shadow-2xl flex flex-col md:flex-row items-center justify-between px-10 py-12
           ${index % 2 === 1 ? "bg-white/50 backdrop-blur-md" : "bg-white/30 backdrop-blur-md"}`}
-        >
+        ><div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-purple-300 rounded-full blur-3xl opacity-20 z-0"></div>
+      <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] bg-blue-300 rounded-full blur-2xl opacity-30 z-0"></div>
+
           <div className="md:w-1/2 text-center md:text-left">
             <h4 className="text-3xl font-extrabold text-blue-700 mb-6">
               {service.title}

@@ -65,9 +65,9 @@
   }
 
   body {
-    scroll-behavior: smooth;
     @apply bg-background text-foreground font-sans text-base;
     height: 100%;
     overflow-x: hidden;
+    scroll-behavior: smooth;
   }
 }
