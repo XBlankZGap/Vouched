@@ -4,7 +4,7 @@ import Container from './Container';
 const Header = () => {
   return (
     <header className="bg-white shadow-md w-full fixed z-50">
-      <div className="relative py-4 flex items-center justify-between">
+    <div className="relative py-4 flex items-center justify-between pr-8 sm:pr-7 lg:pr-20">
         <div className="font-sans absolute left-4 sm:left-6 lg:left-8 text-2xl font-bold text-blue-700">
           Vouched
         </div>
