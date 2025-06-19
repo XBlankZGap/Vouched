@@ -10,7 +10,7 @@ import {
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="w-full bg-gray-800 text-white py-10 mt-20">
+    <footer className="w-full bg-gray-800 text-white py-20 mt-20">
       <div className="w-full px-4 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6 max-w-screen-2xl mx-auto">
      
         <div className="w-full md:w-1/2">

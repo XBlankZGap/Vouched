@@ -6,7 +6,7 @@ import PricingSection from './components/PricingSection';
 import ServicesSection from './components/ServicesSection';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
-
+import StoreLogosSection from "./components/StoreLogosSection";
 
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
         <HeroSection />
         <PricingSection />
         <ServicesSection />
+        <StoreLogosSection />
       </main>
 <BackToTop />
       

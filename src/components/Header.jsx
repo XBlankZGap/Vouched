@@ -3,11 +3,12 @@ import Container from './Container';
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-md w-full fixed z-50">
+    <header className="bg-white shadow-md w-full fixed z-50 ">
     <div className="relative py-4 flex items-center justify-between pr-8 sm:pr-7 lg:pr-20">
-        <div className="font-sans absolute left-4 sm:left-6 lg:left-8 text-2xl font-bold text-blue-700">
-          Vouched
-        </div>
+        <div className="font-sans absolute left-4 sm:left-6 lg:left-8 text-2xl font-bold transition-all duration-150 ease-in-out hover:scale-110">
+  <span className="text-blue-700">Vouched</span>
+  <span className="text-black font-extrabold">.</span>
+</div>
 
         <Container>
           <div className="flex justify-end pl-40">
