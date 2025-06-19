@@ -14,7 +14,7 @@ function App() {
       <Header />
 
      
-      <main className="flex-grow mt-16 p-4">
+      <main className="flex-grow">
 
         <HeroSection />
         <PricingSection />
