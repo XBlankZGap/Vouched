@@ -33,7 +33,7 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="bg-gray-50 py-16 px-4">
+    <section id="services" className="bg-gray-50 py-16 px-4 rounded-[2.5rem] shadow-2xl">
       <h3 className="font-sans text-4xl font-bold text-center mb-16 text-gray-800">
         What We Offer
       </h3>

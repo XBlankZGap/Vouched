@@ -7,7 +7,7 @@ const PricingSection = () => {
       
       <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-6xl mx-auto px-4">
         {/* Free Plan */}
-        <div className="bg-white shadow p-6 rounded-2xl w-full md:w-1/3 flex flex-col justify-between text-center shadow-2xl">
+        <div className="bg-white p-6 rounded-2xl w-full md:w-1/3 flex flex-col justify-between text-center shadow-2xl">
           <div>
             <h4 className="text-xl font-bold mb-2 text-blue-600">Free</h4>
             <p className="text-gray-600 mb-2">Basic access to core tools</p>
