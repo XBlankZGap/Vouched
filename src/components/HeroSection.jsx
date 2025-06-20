@@ -21,7 +21,7 @@ const HeroSection = () => {
             Know the demand, competition & profit before launching any product.
           </p>
 
-          {/* ✅ Replaced old <button> with a <Link> for navigation */}
+          {/* Analyze button in Herosection wrapped with a fresh page link /Analyze*/}
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto md:mx-0">
             <input
               type="text"

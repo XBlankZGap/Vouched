@@ -20,8 +20,8 @@ function Home() {
         <ServicesSection />
         <StoreLogosSection />
       </main>
-      <BackToTop />
-      <Footer />
+      
+
     </div>
   );
 }
@@ -36,6 +36,7 @@ function App() {
           <Route path="/analyze" element={<Analyze />} />
         </Routes>
         <Footer />
+        <BackToTop />
       </div>
     </Router>
   );
