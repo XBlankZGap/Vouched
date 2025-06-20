@@ -1,10 +1,10 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
-const cors = require("cors");
+// Load environment variables
+require("dotenv").config();
 
-// Load environment variables from .env file
-dotenv.config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes"); 
 
 // Connect to MongoDB
 connectDB();
@@ -13,14 +13,13 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors()); // Enable Cross-Origin Resource Sharing
-app.use(express.json()); // Parse incoming JSON data
+app.use(cors());
+app.use(express.json());
 
-// Import and use authentication routes
-const authRoutes = require("./routes/auth"); // This imports the signup/signin routes
-app.use("/api", authRoutes); // This makes /api/signup and /api/signin work
+// Routes
+app.use("/api", authRoutes); 
 
-// Basic route for testing
+// Test route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
