@@ -8,8 +8,9 @@ import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import StoreLogosSection from "./components/StoreLogosSection";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Analyze from './components/Analyze';
 
-function App() {
+function Home() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Header />
@@ -22,6 +23,21 @@ function App() {
       <BackToTop />
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col font-sans">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/analyze" element={<Analyze />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

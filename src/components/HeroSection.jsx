@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; 
 import heroImage from "../assets/hero-image.jpg";
 
 const HeroSection = () => {
@@ -11,10 +12,7 @@ const HeroSection = () => {
       <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-purple-300 rounded-full blur-3xl opacity-20 z-0"></div>
       <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] bg-blue-300 rounded-full blur-2xl opacity-30 z-0"></div>
 
-   
       <div className="relative z-10 flex flex-col md:flex-row items-center gap-12 w-full max-w-[1400px] mx-auto bg-white/30 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl">
-        
-      
         <div className="text-center md:text-left flex-1">
           <h2 className="font-sans text-4xl md:text-6xl font-bold mb-4 text-gray-800">
             Validate Before You Sell
@@ -22,19 +20,22 @@ const HeroSection = () => {
           <p className="text-lg md:text-xl text-gray-600 mb-8">
             Know the demand, competition & profit before launching any product.
           </p>
+
+          {/* ✅ Replaced old <button> with a <Link> for navigation */}
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto md:mx-0">
             <input
               type="text"
               placeholder="Enter product name or URL..."
               className="flex-grow px-4 py-3 border rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <button className="shrink-0 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
-              Analyze
-            </button>
+            <Link to="/Analyze">
+              <button className="shrink-0 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+                Analyze
+              </button>
+            </Link>
           </div>
         </div>
 
-        
         <div className="hidden md:block flex-1">
           <img
             src={heroImage}
