@@ -7,9 +7,9 @@ import ServicesSection from './components/ServicesSection';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import StoreLogosSection from "./components/StoreLogosSection";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function MainWebsite() {
+function App() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Header />
