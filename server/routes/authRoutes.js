@@ -119,4 +119,36 @@ router.post("/logout", (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 
+// LOGOUT ROUTE: Clears the refresh token cookie
+router.post("/logout", (req, res) => {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: false, // set to true in production (https)
+    sameSite: "Strict",
+  });
+  return res.status(200).json({ message: "Logged out successfully" });
+});
+
+// REFRESH ROUTE: Verifies refresh token, returns new access token
+router.post("/refresh", (req, res) => {
+  const token = req.cookies.refreshToken;
+  if (!token) return res.status(401).json({ message: "No token" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+
+    const accessToken = jwt.sign(
+      { id: decoded.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    return res.json({ accessToken });
+  } catch (err) {
+    return res.status(403).json({ message: "Invalid refresh token" });
+  }
+});
+
+
+
 module.exports = router;
