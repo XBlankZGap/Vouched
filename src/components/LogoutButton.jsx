@@ -1,14 +1,14 @@
 import React from 'react';
-import api from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth(); // get logout function from context
 
   const handleLogout = async () => {
     try {
-      await api.post('/auth/logout');
-      localStorage.removeItem('accessToken');
+      await logout(); // call context logout
       alert('You have been logged out.');
       navigate('/login');
     } catch (err) {

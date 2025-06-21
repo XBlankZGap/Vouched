@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import api from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { login } = useAuth(); // get login function from context
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,20 +25,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await api.post('/auth/login', formData);
-
-      console.log('Login successful:', res.data);
-
-      // Save token for future requests to protected routes
-      localStorage.setItem('accessToken', res.data.accessToken);
-      localStorage.setItem('userRole', res.data.user.role);
-
-      alert(`Welcome, ${res.data.user.name}`);
-
-      // Redirect to dashboard or other protected route
-      navigate('/dashboard');
+      await login(formData); // uses login() from AuthContext
+      navigate('/dashboard'); // redirect on success
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err?.message || 'Login failed');
     } finally {
       setLoading(false);
     }
