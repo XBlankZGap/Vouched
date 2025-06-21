@@ -18,6 +18,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/protected", protectedRoutes);
+app.use(cors({
+  origin: "http://localhost:5178", // or your frontend domain
+  credentials: true
+}));
 
 
 // Routes
