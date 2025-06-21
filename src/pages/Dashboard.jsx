@@ -1,60 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import LogoutButton from '../components/LogoutButton';
-import api from '../utils/axios'; // Axios instance with withCredentials
+import api from '../utils/axios';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
-  const [userData, setUserData] = useState(null);
-  const [error, setError] = useState('');
-  const [role, setRole] = useState('');
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    const fetchProtectedData = async () => {
-      const token = localStorage.getItem('accessToken');
-      const storedRole = localStorage.getItem('userRole'); // get role from storage
-      setRole(storedRole || '');
-
-      if (!token) {
-        setError("No token found. Please log in.");
-        return;
-      }
-
+    const fetchData = async () => {
       try {
-        const res = await api.get('/protected/some-data', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setUserData(res.data);
+        const res = await api.get('/protected/some-data');
+        setData(res.data);
       } catch (err) {
-        console.error(err);
-        setError('Failed to load protected data. Token may be invalid or expired.');
+        console.error('Fetch error:', err);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchProtectedData();
+    fetchData();
   }, []);
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
       <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
 
-      {error && <p className="text-red-600 mb-4">{error}</p>}
-
-      {role === 'admin' && (
-        <div className="bg-yellow-100 text-yellow-800 p-3 rounded mb-4">
-          👑 You are an <strong>Admin</strong>. Admin-only features will appear here.
+      {user && (
+        <div className="mb-6 bg-green-100 p-4 rounded">
+          <p className="font-semibold">Welcome: {user.name}</p>
+          <p className="text-sm text-gray-600">Role: {user.role}</p>
         </div>
       )}
 
-      {userData ? (
-        <div className="bg-gray-100 p-4 rounded">
-          <p className="font-medium mb-2">Protected Data:</p>
-          <pre className="text-sm">{JSON.stringify(userData, null, 2)}</pre>
+      {loading ? (
+        <p>Loading protected data...</p>
+      ) : data ? (
+        <div className="p-4 bg-gray-50 border rounded">
+          <h2 className="text-lg font-semibold mb-2">Protected Data:</h2>
+          <pre className="text-sm text-gray-700 bg-white p-2 rounded overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>
         </div>
-      ) : !error ? (
-        <p className="text-gray-600">Loading protected data...</p>
-      ) : null}
+      ) : (
+        <p className="text-red-500">Failed to load data.</p>
+      )}
 
       <div className="mt-6">
         <LogoutButton />
