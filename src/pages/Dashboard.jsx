@@ -5,10 +5,13 @@ import api from '../utils/axios'; // Axios instance with withCredentials
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
+  const [role, setRole] = useState('');
 
   useEffect(() => {
     const fetchProtectedData = async () => {
       const token = localStorage.getItem('accessToken');
+      const storedRole = localStorage.getItem('userRole'); // get role from storage
+      setRole(storedRole || '');
 
       if (!token) {
         setError("No token found. Please log in.");
@@ -38,20 +41,26 @@ const Dashboard = () => {
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
+      {role === 'admin' && (
+        <div className="bg-yellow-100 text-yellow-800 p-3 rounded mb-4">
+          👑 You are an <strong>Admin</strong>. Admin-only features will appear here.
+        </div>
+      )}
+
       {userData ? (
         <div className="bg-gray-100 p-4 rounded">
           <p className="font-medium mb-2">Protected Data:</p>
           <pre className="text-sm">{JSON.stringify(userData, null, 2)}</pre>
         </div>
-      ) : (
+      ) : !error ? (
         <p className="text-gray-600">Loading protected data...</p>
-      )}
+      ) : null}
 
-      <LogoutButton />
+      <div className="mt-6">
+        <LogoutButton />
+      </div>
     </div>
   );
 };
 
 export default Dashboard;
-// This component fetches protected data from the server using the access token stored in localStorage.
-// If the token is invalid or expired, it will display an error message.
