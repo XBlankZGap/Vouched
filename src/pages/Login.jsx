@@ -29,6 +29,7 @@ const Login = () => {
 
       // Save token for future requests to protected routes
       localStorage.setItem('accessToken', res.data.accessToken);
+      localStorage.setItem('userRole', res.data.user.role);
 
       alert(`Welcome, ${res.data.user.name}`);
 
