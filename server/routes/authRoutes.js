@@ -6,10 +6,10 @@ const jwt = require("jsonwebtoken");
 
 // Utility: Token Generators
 const generateAccessToken = (userId) => 
-  jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
+  jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "15m" });
 
 const generateRefreshToken = (userId) => 
-  jwt.sign({ id: userId }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "30d" });
+  jwt.sign({ id: user._id, role: user.role }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "30d" });
 
 // === SIGNUP ===
 router.post("/signup", async (req, res) => {
