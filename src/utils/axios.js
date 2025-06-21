@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { refreshAccessToken } from './tokenRefresh'; // Make sure this file exists
+import { refreshAccessToken } from './tokenRefresh'; // This function handles calling /refresh-token
 
+// Create Axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
-  withCredentials: true, // Needed for cookie-based refresh tokens
+  baseURL: 'http://localhost:5000/api', // API base
+  withCredentials: true, // Needed to send cookies like refreshToken
 });
 
-// Add access token to request headers
+// REQUEST INTERCEPTOR: Attach access token to all requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken');
@@ -18,23 +19,30 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Auto-refresh access token on 403
+// RESPONSE INTERCEPTOR: Auto-refresh token if expired (403) and retry original request
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
+    // If 403 (forbidden) and it's the first retry
     if (
       error.response?.status === 403 &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
 
-      const newToken = await refreshAccessToken();
+      try {
+        const newToken = await refreshAccessToken();
 
-      if (newToken) {
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return api(originalRequest); // Retry request with new token
+        if (newToken) {
+          localStorage.setItem('accessToken', newToken); // Ensure token is saved
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          return api(originalRequest); // Retry with new token
+        }
+      } catch (err) {
+        console.error('Token refresh failed:', err);
+        // Optional: redirect to login or logout
       }
     }
 
