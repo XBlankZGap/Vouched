@@ -9,4 +9,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  plugins: [react()],
+  server: {
+    port: 5173,
+    cors: {
+      origin: 'http://localhost:5173',
+      credentials: true,
+    },
+  },
 });

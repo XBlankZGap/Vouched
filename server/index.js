@@ -1,12 +1,13 @@
+
 // Load environment variables
 require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser"); // Add this if you're using cookies
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes"); 
 const protectedRoutes = require("./routes/protected");
-
 
 // Connect to MongoDB
 connectDB();
@@ -14,20 +15,19 @@ connectDB();
 // Create Express app
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use("/api/protected", protectedRoutes);
+// Middleware - correctly ordered
 app.use(cors({
-  origin: "http://localhost:5178", // or your frontend domain
+  origin: "http://localhost:5173", // frontend URL
   credentials: true
 }));
-
-
+app.use(express.json());
+app.use(cookieParser()); // Only if using cookies (for refreshToken)
+  
 // Routes
-app.use("/api", authRoutes); 
+app.use("/api/auth", authRoutes); // Login, signup
+app.use("/api/protected", protectedRoutes); // Any secured routes
 
-// Test route
+// Default test route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
@@ -35,5 +35,5 @@ app.get("/", (req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
