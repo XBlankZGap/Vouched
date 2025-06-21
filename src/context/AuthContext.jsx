@@ -1,33 +1,42 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// src/context/AuthContext.jsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || '');
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
-  const login = (token, userData) => {
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUser(decoded);
+      } catch (error) {
+        console.error("Invalid token", error);
+        localStorage.removeItem('accessToken');
+        setUser(null);
+      }
+    }
+  }, []);
+
+  const login = (token) => {
     localStorage.setItem('accessToken', token);
-    setAccessToken(token);
-    setUser(userData);
+    const decoded = jwtDecode(token);
+    setUser(decoded);
   };
 
   const logout = () => {
     localStorage.removeItem('accessToken');
-    setAccessToken('');
     setUser(null);
-    navigate('/login');
   };
 
-  const isAuthenticated = !!accessToken;
-
   return (
-    <AuthContext.Provider value={{ accessToken, user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export default AuthProvider;
+export const useAuth = () => useContext(AuthContext);

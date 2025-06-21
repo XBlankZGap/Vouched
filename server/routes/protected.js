@@ -3,19 +3,26 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const requireRole = require("../middleware/requireRole");
+const User = require("../models/User");
 
+// Basic protected route
+router.get("/some-data", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
 
-router.get("/some-data", authMiddleware, (req, res) => {
-  res.json({
-    message: "You accessed protected data!",
-    userId: req.user.id,
-  });
+    res.json({
+      message: "You accessed protected data!",
+      user,
+    });
+  } catch (err) {
+    console.error("Protected route error:", err);
+    res.status(500).json({ message: "Failed to fetch protected data" });
+  }
 });
 
+// Admin-only protected route
 router.get("/admin-data", authMiddleware, requireRole("admin"), (req, res) => {
   res.json({ message: "This is admin-only data." });
 });
 
 module.exports = router;
-// This route is protected by the authMiddleware, which checks if the user is authenticated.
-// If the user is authenticated, they can access the protected data.
