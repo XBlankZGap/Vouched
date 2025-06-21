@@ -27,25 +27,25 @@ router.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
 
-    // Generate access token
+    // Generate tokens
     const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "15m", // Access token lasts 15 minutes
+      expiresIn: "15m",
     });
 
-    // Generate refresh token
-    const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: "30d", // Refresh token lasts 30 days
-    });
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "30d" }
+    );
 
-    // Send refresh token in HttpOnly cookie
+    // Send refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true, // set true in production (HTTPS)
-      sameSite: "Strict", // helps protect against CSRF
+      secure: process.env.NODE_ENV === "production", // true in production
+      sameSite: "Strict",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
-    // Send access token + user info in response
     res.status(201).json({
       accessToken,
       user: {
@@ -67,36 +67,31 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    // Create access token (short-lived)
     const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "15m",
     });
 
-    // Create refresh token (long-lived)
-    const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: "30d",
-    });
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "30d" }
+    );
 
-    // Send refresh token in HttpOnly cookie (for secure browser storage)
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false, // set true in production (HTTPS)
-      // Note: In production, set secure to true to ensure cookies are sent over HTTPS
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    // Send access token + user info to frontend
     res.json({
       accessToken,
       user: {
@@ -109,6 +104,19 @@ router.post("/login", async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
+});
+
+// @route   POST /api/auth/logout
+// @desc    Logout user by clearing cookie
+// @access  Public
+router.post("/logout", (req, res) => {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Strict",
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 module.exports = router;

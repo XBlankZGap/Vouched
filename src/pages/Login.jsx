@@ -24,13 +24,16 @@ const Login = () => {
 
     try {
       const res = await api.post('/auth/login', formData);
+
       console.log('Login successful:', res.data);
 
-      // You may store accessToken or move to context
-      // localStorage.setItem('accessToken', res.data.accessToken);
+      // Save token for future requests to protected routes
+      localStorage.setItem('accessToken', res.data.accessToken);
 
       alert(`Welcome, ${res.data.user.name}`);
-      navigate('/dashboard'); // Optional: Change as needed
+
+      // Redirect to dashboard or other protected route
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     } finally {

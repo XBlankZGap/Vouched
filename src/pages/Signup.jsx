@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../utils/axios'; // Axios instance with withCredentials
+// import { useNavigate } from 'react-router-dom'; // Uncomment if redirecting after signup
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // const navigate = useNavigate(); // Uncomment if redirecting after signup
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -43,8 +46,14 @@ const Signup = () => {
       });
 
       console.log('Signup success:', res.data);
+
+      // Store the access token in localStorage for future authenticated requests
+      localStorage.setItem('accessToken', res.data.accessToken);
+
       alert('Signup successful!');
-      // Optionally redirect to login or dashboard
+
+      // Optional: redirect to dashboard or login
+      // navigate('/dashboard');
 
     } catch (err) {
       console.error(err);
