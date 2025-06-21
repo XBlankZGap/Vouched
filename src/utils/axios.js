@@ -1,12 +1,12 @@
-import axios from 'axios'; // Import axios for making HTTP requests
-import { refreshAccessToken } from './tokenRefresh';
+import axios from 'axios';
+import { refreshAccessToken } from './tokenRefresh'; // Make sure this file exists
 
 const api = axios.create({
   baseURL: 'http://localhost:5000/api',
-  withCredentials: true,
+  withCredentials: true, // Needed for cookie-based refresh tokens
 });
 
-// Add access token to every request
+// Add access token to request headers
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken');
@@ -18,27 +18,27 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Automatically refresh access token if expired
+// Auto-refresh access token on 403
 api.interceptors.response.use(
-  (res) => res,
-  async (err) => {
-    const originalRequest = err.config;
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-    // Only try to refresh once
     if (
-      err.response?.status === 403 &&
+      error.response?.status === 403 &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
+
       const newToken = await refreshAccessToken();
 
       if (newToken) {
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return api(originalRequest);
+        return api(originalRequest); // Retry request with new token
       }
     }
 
-    return Promise.reject(err);
+    return Promise.reject(error);
   }
 );
 

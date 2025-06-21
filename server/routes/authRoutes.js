@@ -105,7 +105,7 @@ router.post("/logout", (req, res) => {
 });
 
 // === REFRESH TOKEN ===
-router.post("/refresh", (req, res) => {
+router.post("/refresh-token", (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
