@@ -1,4 +1,3 @@
-// src/components/LogoutButton.jsx
 import React from 'react';
 import api from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +7,13 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      await api.post('/auth/logout'); // Clear refresh token on backend
-      localStorage.removeItem('accessToken'); // Clear access token on frontend
-      navigate('/login'); // Redirect to login
+      await api.post('/auth/logout');
+      localStorage.removeItem('accessToken');
+      alert('You have been logged out.');
+      navigate('/login');
     } catch (err) {
       console.error('Logout failed:', err);
+      alert('Logout failed');
     }
   };
 
