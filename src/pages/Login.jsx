@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import api from '../utils/axios'; // Your axios instance
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -20,15 +21,24 @@ const Login = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent form default submission
     setError('');
     setLoading(true);
 
     try {
-      await login(formData); // uses login() from AuthContext
-      navigate('/dashboard'); // redirect on success
-    } catch (err) {
-      setError(err?.message || 'Login failed');
+      const response = await api.post('/auth/login', formData); // Adjust endpoint if needed
+
+      const token = response.data.accessToken; // Make sure backend sends token here
+
+      if (typeof token !== 'string') {
+        throw new Error('Invalid token returned from server');
+      }
+
+      login(token); // Save token & decode user
+      navigate('/dashboard'); // Redirect on success
+    } catch (error) {
+      console.error('Login error:', error);
+      setError(error.response?.data?.message || error.message || 'Login failed');
     } finally {
       setLoading(false);
     }
